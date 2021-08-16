@@ -19,3 +19,9 @@ enum class LAUNCHSTATE : int
     LS_CHEATS,   // Enable cheats
     LS_DEBUG     // Enable debug
 };
+
+enum class UPDATEMODE : int
+{
+    UM_IGNORE, // dont check for updates
+    UM_CHECK    // check for updates and install
+};

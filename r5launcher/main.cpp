@@ -35,7 +35,7 @@ void PrintLastError()
 // * Load specified command line arguments from a file on the disk.
 // * Format the file paths for the game exe and specified hook dll.
 //-----------------------------------------------------------------------------
-bool LaunchR5Apex(LAUNCHMODE lMode, LAUNCHSTATE lState)
+bool LaunchR5Apex(LAUNCHMODE lMode, LAUNCHSTATE lState, UPDATEMODE uMode)
 {
     BOOL result;
 
@@ -173,23 +173,27 @@ bool LaunchR5Apex(LAUNCHMODE lMode, LAUNCHSTATE lState)
 ///////////////////////////////////////////////////////////////////////////////
 int main(int argc, char* argv[], char* envp[])
 {
+    LAUNCHMODE lm = LAUNCHMODE::LM_GAME;
+    LAUNCHSTATE ls = LAUNCHSTATE::LS_CHEATS;
+    UPDATEMODE um = UPDATEMODE::UM_CHECK;
+
     for (int i = 1; i < argc; ++i)
     {
         std::string arg = argv[i];
         if ((arg == "-dedicated") || (arg == "-dedi"))
         {
-            LaunchR5Apex(LAUNCHMODE::LM_DEDI, LAUNCHSTATE::LS_CHEATS);
-            Sleep(2000);
-            return EXIT_SUCCESS;
+            lm = LAUNCHMODE::LM_DEDI;
         }
         if ((arg == "-debug") || (arg == "-dbg"))
         {
-            LaunchR5Apex(LAUNCHMODE::LM_DEBUG, LAUNCHSTATE::LS_CHEATS);
-            Sleep(2000);
-            return EXIT_SUCCESS;
+            lm = LAUNCHMODE::LM_DEBUG;
+        }
+        if ((arg == "-noupdate"))
+        {
+            um = UPDATEMODE::UM_IGNORE;
         }
     }
-    LaunchR5Apex(LAUNCHMODE::LM_GAME, LAUNCHSTATE::LS_CHEATS);
+    LaunchR5Apex(lm, ls, um);
     Sleep(2000);
     return EXIT_SUCCESS;
 }
